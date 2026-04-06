@@ -1,5 +1,6 @@
 import { DocumentUploadVoluntarios } from "../../components/DocumentUploadVoluntarios"
 import { NavigationButtons } from "../../components/NavigationButtons"
+import { useMemo, useState } from "react"
 
 export function Step4Individual(props: {
   files: any
@@ -9,6 +10,24 @@ export function Step4Individual(props: {
   isStepValid: () => boolean
 }) {
   const { files, setFiles, goPrev, goNext } = props
+  const [showErrors, setShowErrors] = useState(false)
+
+  const missing = useMemo(
+    () => ({
+      cedula: !files?.cedula,
+      cv: !files?.cv,
+      carta: !files?.carta,
+    }),
+    [files]
+  )
+
+  const disableNext = missing.cedula || missing.cv || missing.carta
+
+  const handleNext = () => {
+    setShowErrors(true)
+    if (disableNext) return
+    goNext()
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-[#DCD6C9]">
@@ -25,7 +44,15 @@ export function Step4Individual(props: {
         setFiles={setFiles}
       />
 
-      <NavigationButtons onPrev={goPrev} onNext={goNext} disableNext={false} />
+      {showErrors && disableNext && (
+        <div className="px-6 pb-2">
+          <p className="text-sm text-[#9c1414]">
+            Debes adjuntar cédula/pasaporte, CV y carta de recomendación para continuar.
+          </p>
+        </div>
+      )}
+
+      <NavigationButtons onPrev={goPrev} onNext={handleNext} disableNext={disableNext} />
     </div>
   )
 }

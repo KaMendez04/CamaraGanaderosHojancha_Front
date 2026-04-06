@@ -14,7 +14,7 @@ export type MotivacionHabilidadesSectionHandle = {
   clearErrors: () => void
 }
 
-const MAX = 255
+const MAX = 150
 
 export const MotivacionHabilidadesSection = forwardRef<
   MotivacionHabilidadesSectionHandle,

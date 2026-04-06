@@ -1,8 +1,5 @@
-
 import { useCallback, useMemo, useState } from "react";
 import type { VolunteersFormData } from "../../volunteersInformation/models/VolunteersType";
-
-const SKIP_VALIDATION_INDIVIDUAL = true;
 
 export function useVolunteersForm() {
   const [step, setStep] = useState(1);
@@ -50,26 +47,47 @@ export function useVolunteersForm() {
   }, []);
 
   const canProceed = useMemo(() => {
-    if (SKIP_VALIDATION_INDIVIDUAL && tipoSolicitante === "INDIVIDUAL") return true;
+    const hasText = (v: any) => String(v ?? "").trim().length > 0;
+    const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v ?? "").trim());
+    const isValidDate = (v: string) => {
+      if (!hasText(v)) return false;
+      const d = new Date(v);
+      return !Number.isNaN(d.getTime());
+    };
+
+    const disponibilidad = formData.disponibilidades?.[0];
+    const disponibilidadValida = !!(
+      disponibilidad &&
+      hasText(disponibilidad.fechaInicio) &&
+      hasText(disponibilidad.fechaFin) &&
+      Array.isArray(disponibilidad.dias) &&
+      disponibilidad.dias.length > 0 &&
+      Array.isArray(disponibilidad.horarios) &&
+      disponibilidad.horarios.length > 0
+    );
+
+    const areasValidas = Array.isArray(formData.areasInteres) && formData.areasInteres.length > 0;
+    const motivacionValida = String(formData.motivation ?? "").trim().length >= 10;
+    const habilidadesValidas = String(formData.volunteeringType ?? "").trim().length >= 1;
 
     if (tipoSolicitante === "INDIVIDUAL") {
       switch (step) {
         case 1:
           return (
-            formData.name.trim() !== "" &&
-            formData.lastName1.trim() !== "" &&
-            formData.lastName2.trim() !== "" &&
-            formData.idNumber.trim() !== "" &&
-            formData.birthDate.trim() !== "" &&
-            formData.phone.trim() !== "" &&
-            formData.email.trim() !== ""
+            hasText(formData.name) &&
+            hasText(formData.lastName1) &&
+            hasText(formData.lastName2) &&
+            String(formData.idNumber ?? "").trim().length >= 8 &&
+            isValidDate(formData.birthDate) &&
+            String(formData.phone ?? "").trim().length >= 8 &&
+            isValidEmail(formData.email)
           );
         case 2:
-          return true; // Disponibilidad opcional
+          return disponibilidadValida && areasValidas;
         case 3:
-          return true; // Motivación opcional
+          return motivacionValida && habilidadesValidas;
         case 4:
-          return !!files.cv && !!files.cedula; // Documentos
+          return !!files.cv && !!files.cedula && !!files.carta; // Documentos requeridos
         default:
           return true;
       }
@@ -80,9 +98,9 @@ export function useVolunteersForm() {
         case 1:
           return true; // Se valida en el form de TanStack
         case 2:
-          return true; // Disponibilidad opcional
+          return disponibilidadValida && areasValidas;
         case 3:
-          return !!files.cedula; // Documento legal obligatorio
+          return !!files.cedula && !!files.carta; // Documento legal + carta
         case 4:
           return true; // Confirmación
         default:

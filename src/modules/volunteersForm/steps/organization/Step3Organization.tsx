@@ -1,5 +1,6 @@
 import { DocumentUploadVoluntarios } from "../../components/DocumentUploadVoluntarios"
 import { NavigationButtons } from "../../components/NavigationButtons"
+import { useMemo, useState } from "react"
 
 export function Step3Organization(props: {
   files: any
@@ -9,6 +10,23 @@ export function Step3Organization(props: {
   isStepValid: () => boolean
 }) {
   const { files, setFiles, goPrev, goNext } = props
+  const [showErrors, setShowErrors] = useState(false)
+
+  const missing = useMemo(
+    () => ({
+      legal: !files?.cedula,
+      carta: !files?.carta,
+    }),
+    [files]
+  )
+
+  const disableNext = missing.legal || missing.carta
+
+  const handleNext = () => {
+    setShowErrors(true)
+    if (disableNext) return
+    goNext()
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-[#DCD6C9]">
@@ -25,7 +43,15 @@ export function Step3Organization(props: {
         setFiles={setFiles}
       />
 
-      <NavigationButtons onPrev={goPrev} onNext={goNext} disableNext={false} />
+      {showErrors && disableNext && (
+        <div className="px-6 pb-2">
+          <p className="text-sm text-[#9c1414]">
+            Debes adjuntar el documento legal y la carta de motivación para continuar.
+          </p>
+        </div>
+      )}
+
+      <NavigationButtons onPrev={goPrev} onNext={handleNext} disableNext={disableNext} />
     </div>
   )
 }
