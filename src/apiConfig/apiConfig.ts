@@ -72,4 +72,3 @@ apiConfig.interceptors.response.use(
 );
 
 export default apiConfig;
-export { apiUrl };
