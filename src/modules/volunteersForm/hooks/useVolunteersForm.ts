@@ -47,6 +47,7 @@ export function useVolunteersForm() {
   }, []);
 
   const canProceed = useMemo(() => {
+    const isValidPhoneLength = (phone: string) => /^\d{8,15}$/.test(String(phone ?? "").trim());
     const hasText = (v: any) => String(v ?? "").trim().length > 0;
     const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v ?? "").trim());
     const isValidDate = (v: string) => {
@@ -79,7 +80,7 @@ export function useVolunteersForm() {
             hasText(formData.lastName2) &&
             String(formData.idNumber ?? "").trim().length >= 8 &&
             isValidDate(formData.birthDate) &&
-            String(formData.phone ?? "").trim().length >= 8 &&
+            isValidPhoneLength(formData.phone) &&
             isValidEmail(formData.email)
           );
         case 2:
@@ -111,9 +112,9 @@ export function useVolunteersForm() {
     return true;
   }, [tipoSolicitante, step, formData, files]);
 
- const resetToFirstStep = useCallback(() => {
-  setStep(1);
-}, []);
+  const resetToFirstStep = useCallback(() => {
+    setStep(1);
+  }, []);
   const isStepValid = useCallback(() => canProceed, [canProceed]);
 
   return {

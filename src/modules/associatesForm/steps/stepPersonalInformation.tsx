@@ -207,6 +207,8 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
 
       if (!valor || (typeof valor === "string" && valor.trim().length === 0)) {
         errores[name] = `${label} es obligatorio`
+      } else if (name === "telefono" && !/^\d{8,15}$/.test(String(valor).trim())) {
+        errores[name] = "Teléfono debe tener entre 8 y 15 dígitos y solo números"
       } else if (minLength && String(valor).length < minLength) {
         errores[name] = `${label} debe tener al menos ${minLength} caracteres`
       } else {
@@ -337,7 +339,7 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
                 return (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Nombre 
+                      Nombre
                     </label>
 
                     <Input
@@ -408,7 +410,7 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
                 return (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Segundo Apellido 
+                      Segundo Apellido
                     </label>
 
                     <Input
@@ -489,7 +491,7 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
                 return (
                   <div>
                     <label className="block text-sm font-medium text-[#4A4A4A] mb-1">
-                      Teléfono 
+                      Teléfono
                     </label>
 
                     <Input
