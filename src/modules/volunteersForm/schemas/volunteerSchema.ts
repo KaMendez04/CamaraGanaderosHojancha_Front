@@ -45,13 +45,13 @@ export const personaSchema = z.object({
   telefono: z
     .string()
     .trim()
-    .min(8, "El teléfono debe tener al menos 8 dígitos")
-    .max(8, "El teléfono debe tener exactamente 8 dígitos")
-    .regex(/^\d+$/, "El teléfono solo debe contener números"),
+    .regex(/^\d+$/, "El teléfono solo debe contener números")
+    .min(8, "El teléfono debe tener entre 8 y 15 dígitos")
+    .max(15, "El teléfono debe tener entre 8 y 15 dígitos"),
   email: z
-  .string()
-  .trim()
-  .email("Email inválido"),
+    .string()
+    .trim()
+    .email("Email inválido"),
   fechaNacimiento: z
     .string()
     .min(1, "La fecha de nacimiento es requerida")
@@ -119,11 +119,11 @@ export const motivacionHabilidadesSchema = z.object({
 /* ORGANIZACIÓN */
 export const organizacionSchema = z.object({
   cedulaJuridica: z
-  .string()
-  .trim()
-  .regex(/^\d+$/, "La cédula jurídica solo debe contener números")
-  .min(10, "La cédula jurídica debe tener 10 dígitos")
-  .max(10, "La cédula jurídica debe tener 10 dígitos"),
+    .string()
+    .trim()
+    .regex(/^\d+$/, "La cédula jurídica solo debe contener números")
+    .min(10, "La cédula jurídica debe tener 10 dígitos")
+    .max(10, "La cédula jurídica debe tener 10 dígitos"),
 
   nombre: z.string().trim().min(1, "El nombre de la organización es requerido"),
 
@@ -134,11 +134,10 @@ export const organizacionSchema = z.object({
   direccion: z.string().trim().min(1, "La dirección es requerida"),
 
   telefono: z
-  .string()
-  .trim()
-  .regex(/^\d+$/, "El teléfono solo debe contener números")
-  .min(8, "El teléfono debe tener al menos 8 dígitos")
-  .max(8, "El teléfono debe tener exactamente 8 dígitos"),
+    .string()
+    .trim()
+    .min(8, "El teléfono debe tener entre 8 y 15 dígitos")
+    .max(15, "El teléfono debe tener entre 8 y 15 dígitos"),
 
   email: z.string().trim().toLowerCase().email("Email institucional inválido"),
   tipoOrganizacion: z.string().trim(),

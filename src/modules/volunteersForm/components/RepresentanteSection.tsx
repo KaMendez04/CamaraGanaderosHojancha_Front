@@ -86,7 +86,10 @@ export function RepresentanteSection({
   }
 
   const clearPath = (path: string) => form?.setFieldValue?.(path, "")
-
+  const forceFieldRevalidation = (field: any, path: string) => {
+    field?.validate?.("change")
+    form?.validateField?.(path, "change")
+  }
   // ✅ Reset completo del representante (excepto la cédula)
   const resetRepresentanteFields = () => {
     clearPath("organizacion.representante.persona.nombre")
@@ -256,13 +259,14 @@ export function RepresentanteSection({
                     onChange={(e) => {
                       if (bloquearNombreApellidos) return
                       setTocoNombres(true)
-                      field.handleChange(e.target.value)
+                      const value = e.target.value
+                      field.handleChange(value)
+                      forceFieldRevalidation(field, "organizacion.representante.persona.nombre")
                       field.handleBlur?.()
                     }}
                     onBlur={field.handleBlur}
-                    className={`${
-                      shouldShowFieldError(field) ? inputError : inputBase
-                    } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
+                    className={`${shouldShowFieldError(field) ? inputError : inputBase
+                      } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
                   />
                   {shouldShowFieldError(field) && (
                     <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
@@ -293,13 +297,14 @@ export function RepresentanteSection({
                     onChange={(e) => {
                       if (bloquearNombreApellidos) return
                       setTocoNombres(true)
-                      field.handleChange(e.target.value)
+                      const value = e.target.value
+                      field.handleChange(value)
+                      forceFieldRevalidation(field, "organizacion.representante.persona.apellido1")
                       field.handleBlur?.()
                     }}
                     onBlur={field.handleBlur}
-                    className={`${
-                      shouldShowFieldError(field) ? inputError : inputBase
-                    } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
+                    className={`${shouldShowFieldError(field) ? inputError : inputBase
+                      } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
                   />
                   {shouldShowFieldError(field) && (
                     <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
@@ -330,13 +335,14 @@ export function RepresentanteSection({
                     onChange={(e) => {
                       if (bloquearNombreApellidos) return
                       setTocoNombres(true)
-                      field.handleChange(e.target.value)
+                      const value = e.target.value
+                      field.handleChange(value)
+                      forceFieldRevalidation(field, "organizacion.representante.persona.apellido2")
                       field.handleBlur?.()
                     }}
                     onBlur={field.handleBlur}
-                    className={`${
-                      shouldShowFieldError(field) ? inputError : inputBase
-                    } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
+                    className={`${shouldShowFieldError(field) ? inputError : inputBase
+                      } ${bloquearNombreApellidos ? disabledBase : "bg-[#ECECEC]"}`}
                   />
                   {shouldShowFieldError(field) && (
                     <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
@@ -398,9 +404,8 @@ export function RepresentanteSection({
                     field.handleBlur?.()
                   }}
                   onBlur={field.handleBlur}
-                  className={`${shouldShowFieldError(field) ? inputError : inputBase} ${
-                    bloquearCamposDB ? disabledBase : "bg-white"
-                  }`}
+                  className={`${shouldShowFieldError(field) ? inputError : inputBase} ${bloquearCamposDB ? disabledBase : "bg-white"
+                    }`}
                 />
                 {shouldShowFieldError(field) && (
                   <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
@@ -435,9 +440,8 @@ export function RepresentanteSection({
                     field.handleBlur?.()
                   }}
                   onBlur={field.handleBlur}
-                  className={`${shouldShowFieldError(field) ? inputError : inputBase} ${
-                    bloquearCamposDB ? disabledBase : "bg-white"
-                  }`}
+                  className={`${shouldShowFieldError(field) ? inputError : inputBase} ${bloquearCamposDB ? disabledBase : "bg-white"
+                    }`}
                 />
                 {shouldShowFieldError(field) && (
                   <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
@@ -510,9 +514,8 @@ export function RepresentanteSection({
                     onBlur={field.handleBlur}
                     rows={2}
                     maxLength={255}
-                    className={`${shouldShowFieldError(field) ? inputError : inputBase} ${
-                      bloquearCamposDB ? disabledBase : "bg-white"
-                    } resize-none`}
+                    className={`${shouldShowFieldError(field) ? inputError : inputBase} ${bloquearCamposDB ? disabledBase : "bg-white"
+                      } resize-none`}
                   />
                   {shouldShowFieldError(field) && (
                     <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>

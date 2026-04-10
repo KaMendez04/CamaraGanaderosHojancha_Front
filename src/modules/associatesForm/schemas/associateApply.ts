@@ -12,7 +12,12 @@ const personaSchema = z.object({
   fechaNacimiento: z
     .string()
     .min(1, "La fecha de nacimiento es requerida, no puede ser una fecha posterior a la actual"),
-  telefono: z.string().min(8, "El teléfono debe tener al menos 8 dígitos"),
+  telefono: z
+    .string()
+    .trim()
+    .regex(/^\d+$/, "El teléfono solo debe contener números")
+    .min(8, "El teléfono debe tener entre 8 y 15 dígitos")
+    .max(15, "El teléfono debe tener entre 8 y 15 dígitos"),
   email: z.string().email("Email inválido"),
   direccion: z.string().optional().or(z.literal("")),
 });
@@ -63,8 +68,8 @@ const propietarioConditionalSchema = z.object({
     .string()
     .optional()
     .or(z.literal(""))
-    .refine((val) => !val || val === "" || val.length >= 8, {
-      message: "El teléfono debe tener al menos 8 dígitos",
+    .refine((val) => !val || /^\d{8,15}$/.test(val), {
+      message: "El teléfono debe tener entre 8 y 15 dígitos y solo números",
     }),
   propietarioEmail: z.string().optional().or(z.literal("")),
   propietarioDireccion: z.string().optional().or(z.literal("")),
@@ -73,19 +78,19 @@ const propietarioConditionalSchema = z.object({
     .or(z.literal(""))
     .refine((fecha) => {
       if (!fecha || fecha === "") return true; // Opcional si esPropietario es true
-      
+
       const fechaNacimiento = new Date(fecha);
       const hoy = new Date();
-      
+
       let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
       const mesActual = hoy.getMonth();
       const mesNacimiento = fechaNacimiento.getMonth();
-      
-      if (mesActual < mesNacimiento || 
-          (mesActual === mesNacimiento && hoy.getDate() < fechaNacimiento.getDate())) {
+
+      if (mesActual < mesNacimiento ||
+        (mesActual === mesNacimiento && hoy.getDate() < fechaNacimiento.getDate())) {
         edad--;
       }
-      
+
       return edad >= 18;
     }, {
       message: "El propietario debe ser mayor de 18 años"
@@ -116,7 +121,7 @@ export const comercializacionSchema = z.object({
 });
 
 export const necesidadesObservacionesSchema = z.object({
- 
+
   necesidades: z
     .array(z.string().max(255, "Máximo 255 caracteres"))
     .length(5, "Debes mantener 5 casillas")
@@ -239,10 +244,10 @@ export const forrajeListSchema = z
   .max(10, "Se pueden registrar hasta 10 tipos de forraje");
 
 export const forrajeItemSchema = z.object({
-    tipoForraje: z.string().nonempty("Campo obligatorio"),
-    variedad: z.string().nonempty("Campo obligatorio"),
-    hectareas: z
-      .number()
-      .gt(0, "Debe ser mayor a 0"),
-    utilizacion: z.string().nonempty("Campo obligatorio"),
-  });
+  tipoForraje: z.string().nonempty("Campo obligatorio"),
+  variedad: z.string().nonempty("Campo obligatorio"),
+  hectareas: z
+    .number()
+    .gt(0, "Debe ser mayor a 0"),
+  utilizacion: z.string().nonempty("Campo obligatorio"),
+});

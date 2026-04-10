@@ -27,7 +27,7 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
     const anyForm = form as any;
     if (typeof anyForm?.subscribe === "function") {
       const unsub = anyForm.subscribe(() => bump((x) => x + 1));
-      return () => { try { unsub && unsub(); } catch {} };
+      return () => { try { unsub && unsub(); } catch { } };
     }
   }, [form]);
 
@@ -67,12 +67,12 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
         const distanciaOk = vive
           ? true
           : (() => {
-              const raw = values.distanciaFinca;
-              const txt = raw == null ? "" : String(raw).trim();
-              if (!txt) return false;
-              const n = Number(txt.replace(",", "."));
-              return Number.isFinite(n) && n > 0;
-            })();
+            const raw = values.distanciaFinca;
+            const txt = raw == null ? "" : String(raw).trim();
+            if (!txt) return false;
+            const n = Number(txt.replace(",", "."));
+            return Number.isFinite(n) && n > 0;
+          })();
 
         const baseOk =
           (values.cedula?.length ?? 0) >= 8 &&
@@ -80,7 +80,7 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
           (values.apellido1?.length ?? 0) >= 1 &&
           (values.apellido2?.length ?? 0) >= 1 &&
           !!values.fechaNacimiento &&
-          (values.telefono?.length ?? 0) >= 8 &&
+          /^\d{8,15}$/.test(String(values.telefono ?? "").trim()) &&
           !!values.email &&
           (values.marcaGanado?.length ?? 0) >= 1 &&
           (values.CVO?.length ?? 0) >= 1;
@@ -132,9 +132,9 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
         }
 
         // Validar hato ganadero
-        const hatoValid = 
+        const hatoValid =
           (values.tipoExplotacion?.length ?? 0) >= 1 &&
-          Array.isArray(values.hatoItems) && 
+          Array.isArray(values.hatoItems) &&
           values.hatoItems.length > 0;
 
         return fincaValid && geografiaValid && propietarioValid && hatoValid;
@@ -155,7 +155,7 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
         const necesidades = (values.necesidadesObservaciones?.necesidades || []).filter(
           (n: string) => n && n.trim() !== ""
         );
-        
+
         return accesos.length > 0 && canales.length > 0 && necesidades.length > 0;
       }
 
@@ -204,14 +204,14 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
     prevStep();
     requestAnimationFrame(scrollToFormTop);
   };
- 
+
   return (
     <div ref={formTopRef} className="scroll-mt-[120px]">
       {step === 1 && (
         <Step1
           form={form}
           lookup={lookup}
-          onNext={goNext}            
+          onNext={goNext}
           canProceed={canProceed}
         />
       )}
@@ -219,8 +219,8 @@ export function Steps({ step, form, lookup, nextStep, prevStep, isSubmitting }: 
       {step === 2 && (
         <Step2
           form={form}
-          onNext={goNext}            
-          onPrev={goPrev}            
+          onNext={goNext}
+          onPrev={goPrev}
           canProceed={canProceed}
         />
       )}
