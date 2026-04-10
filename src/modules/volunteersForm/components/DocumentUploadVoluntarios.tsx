@@ -42,9 +42,8 @@ export function DocumentUploadVoluntarios({ tipo, files, setFiles }: DocumentUpl
 
           <label
             htmlFor={id}
-            className={`flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-              file ? "border-[#708C3E] bg-[#f0f4e8]" : "border-[#CFCFCF] bg-white hover:bg-gray-50"
-            }`}
+            className={`flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${file ? "border-[#708C3E] bg-[#f0f4e8]" : "border-[#CFCFCF] bg-white hover:bg-gray-50"
+              }`}
           >
             {file ? (
               <div className="text-center p-4">
@@ -90,15 +89,15 @@ export function DocumentUploadVoluntarios({ tipo, files, setFiles }: DocumentUpl
   const labels =
     tipo === "INDIVIDUAL"
       ? {
-          cedula: "Copia de Cédula/Pasaporte",
-          cv: "Currículum Vitae (CV)",
-          carta: "Carta de recomendación",
-        }
+        cedula: "Copia de Cédula/Pasaporte",
+        cv: "Currículum Vitae (CV)",
+        carta: "Carta de recomendación",
+      }
       : {
-          cedula: "Documento legal de la organización",
-          carta: "Carta de motivación",
-          cv: "Documento adicional",
-        }
+        cedula: "Documento legal de la organización",
+        carta: "Carta de motivación",
+        cv: "Documento adicional",
+      }
 
   return (
     <div className="p-6 space-y-6">
@@ -119,13 +118,13 @@ export function DocumentUploadVoluntarios({ tipo, files, setFiles }: DocumentUpl
 
       {tipo === "INDIVIDUAL" ? (
         <>
-        <div className="grid md:grid-cols-2 gap-6">
-          {renderFileInput("ind-cedula", labels.cedula, "cedula", true)}
-          {renderFileInput("ind-cv", labels.cv, "cv", true)}
-        </div>
-        
+          <div className="grid md:grid-cols-2 gap-6">
+            {renderFileInput("ind-cedula", labels.cedula, "cedula", true)}
+            {renderFileInput("ind-cv", labels.cv, "cv", true)}
+          </div>
+
           <div className="grid grid-cols-1">
-          {renderFileInput("ind-carta", labels.carta, "carta", true)}
+            {renderFileInput("ind-carta", labels.carta, "carta", false)}
           </div>
         </>
       ) : (
@@ -136,7 +135,7 @@ export function DocumentUploadVoluntarios({ tipo, files, setFiles }: DocumentUpl
           </div>
 
           <div className="grid grid-cols-1">
-            {renderFileInput("org-adicional", labels.cv, "cv", false) }
+            {renderFileInput("org-adicional", labels.cv, "cv", false)}
           </div>
         </>
       )}
