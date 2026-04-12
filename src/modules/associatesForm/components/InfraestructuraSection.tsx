@@ -27,7 +27,7 @@ export function InfraestructuraSection({ form }: InfraestructuraSectionProps) {
   const [otraInfraestructura, setOtraInfraestructura] = useState<string>("")
 
   useEffect(() => {
-    ;(form as any).setFieldValue("infraestructuraDisponible", {
+    ; (form as any).setFieldValue("infraestructuraDisponible", {
       infraestructuras,
       corrienteElectrica,
     })
@@ -114,7 +114,6 @@ export function InfraestructuraSection({ form }: InfraestructuraSectionProps) {
                   agregarOtraInfraestructura()
                 }
               }}
-              placeholder="Otra infraestructura"
               className="bg-white border-[#DCD6C9] focus-visible:ring-[#708C3E]/30 focus-visible:ring-2 focus-visible:ring-offset-0"
               maxLength={75}
             />
@@ -129,7 +128,7 @@ export function InfraestructuraSection({ form }: InfraestructuraSectionProps) {
               Agregar
             </Button>
           </div>
-
+          <p className="mt-1 text-xs text-gray-500">Otra infraestructura</p>
           {infraestructuras.length > 0 && (
             <div className="mt-3 p-3 bg-[#FEF6E0] border border-[#F5E6C5] rounded-md">
               <p className="text-xs text-[#8B6C2E] font-medium mb-2">Infraestructura seleccionada:</p>

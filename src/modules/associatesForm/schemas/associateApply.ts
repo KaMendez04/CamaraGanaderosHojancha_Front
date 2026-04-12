@@ -30,8 +30,11 @@ const datosAsociadoSchema = z.object({
     .union([z.string(), z.number()])   // acepta número o string
     .optional(),
   viveEnFinca: z.boolean().default(true), // <-- antes estaba en false
-  marcaGanado: z.string().min(1, "La marca de ganado es requerida"),
-  CVO: z.string().min(1, "El CVO es requerido"),
+  marcaGanado: z
+    .string()
+    .min(1, "La marca de ganado es requerida")
+    .max(100, "Máximo 100 caracteres"),
+  CVO: z.string().min(1, "El CVO es requerido").max(100),
 });
 
 
