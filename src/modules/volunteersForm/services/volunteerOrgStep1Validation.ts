@@ -1,3 +1,5 @@
+import { volunteerOrganizacionSchema } from "../schemas/volunteerSchema"
+
 export function validateOrgStep1Required(form: any) {
   const v = form?.state?.values?.organizacion || {}
   const r = v?.representante || {}
@@ -40,6 +42,22 @@ export function validateOrgStep1Required(form: any) {
   ]
 
   namesToValidate.forEach((n) => form?.validateField?.(n, "change"))
+  const hasFieldErrors = namesToValidate.some((name) => {
+    const fieldMeta =
+      form?.getFieldMeta?.(name) ??
+      form?.state?.fieldMeta?.[name] ??
+      form?.getFieldInfo?.(name)?.instance?.state?.meta
+    const errors = fieldMeta?.errors
+    return Array.isArray(errors) && errors.length > 0
+  })
 
-  return { anyEmpty }
+  const schemaValidation = volunteerOrganizacionSchema.safeParse({
+    tipoSolicitante: "ORGANIZACION",
+    organizacion: v,
+  })
+
+  const hasSchemaErrors = !schemaValidation.success
+  const canContinue = !(anyEmpty || hasFieldErrors || hasSchemaErrors)
+
+  return { anyEmpty, hasFieldErrors, hasSchemaErrors, canContinue }
 }
