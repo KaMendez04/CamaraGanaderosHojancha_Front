@@ -45,7 +45,7 @@ export function Step3Organization(props: {
 
       {showErrors && disableNext && (
         <div className="px-6 pb-2">
-          <p className="text-sm text-[#9c1414]">
+          <p className="text-sm text-[#9c1414] mt-1">
             Debes adjuntar el documento legal y la carta de motivación para continuar.
           </p>
         </div>

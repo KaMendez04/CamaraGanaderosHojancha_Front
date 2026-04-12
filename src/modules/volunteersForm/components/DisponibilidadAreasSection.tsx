@@ -24,6 +24,8 @@ interface DisponibilidadAreasProps {
   tipoSolicitante: "INDIVIDUAL" | "ORGANIZACION"
 }
 
+const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+
 const AREAS_OPCIONES = [
   "Eventos y actividades",
   "Educación ambiental",
@@ -53,6 +55,17 @@ function startOfDay(d: Date) {
   return x
 }
 
+const WEEKDAY_INDEX_TO_DIA: Record<number, string> = {
+  0: "Domingo",
+  1: "Lunes",
+  2: "Martes",
+  3: "Miércoles",
+  4: "Jueves",
+  5: "Viernes",
+  6: "Sábado",
+}
+
+
 export const DisponibilidadAreasSection = forwardRef<
   DisponibilidadAreasSectionHandle,
   DisponibilidadAreasProps
@@ -68,7 +81,7 @@ export const DisponibilidadAreasSection = forwardRef<
   const [razonSocial, setRazonSocial] = useState("")
   const [otraArea, setOtraArea] = useState("")
 
-  const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+  const dias = DIAS_SEMANA
   const horarios = [
     { label: "Mañana (8:00 AM - 12:00 PM)", value: "mañana" },
     { label: "Tarde (1:00 PM - 4:30 PM)", value: "tarde" },
@@ -338,8 +351,41 @@ export const DisponibilidadAreasSection = forwardRef<
     showErrors,
   ])
 
+  const availableDaysInRange = useMemo(() => {
+    const start = parseISOToDate(fechaInicio)
+    const end = parseISOToDate(fechaFin)
+
+    if (!start || !end || end < start) return null
+
+    const allowed = new Set<string>()
+    const cursor = new Date(start)
+
+    while (cursor <= end) {
+      const dayName = WEEKDAY_INDEX_TO_DIA[cursor.getDay()]
+      if (dayName) allowed.add(dayName)
+      cursor.setDate(cursor.getDate() + 1)
+    }
+
+    return allowed
+  }, [fechaInicio, fechaFin])
+
+  useEffect(() => {
+    if (!availableDaysInRange) return
+
+    setDiasSeleccionados((prev) => {
+      const filtered = prev.filter((d) => availableDaysInRange.has(d))
+      return filtered.length === prev.length ? prev : filtered
+    })
+  }, [availableDaysInRange])
+
   const handleDiaChange = (dia: string) => {
+    if (availableDaysInRange && !availableDaysInRange.has(dia)) return
+
     setDiasSeleccionados((prev) => (prev.includes(dia) ? prev.filter((d) => d !== dia) : [...prev, dia]))
+  }
+
+  const handleAreaChange = (area: string) => {
+    setAreasSeleccionadas((prev) => (prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]))
   }
 
   const handleHorarioChange = (horario: string) => {
@@ -348,13 +394,9 @@ export const DisponibilidadAreasSection = forwardRef<
     )
   }
 
-  const handleAreaChange = (area: string) => {
-    setAreasSeleccionadas((prev) => (prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]))
-  }
-
   const today = toISODate(todayDate)
 
-  const parseISOToDate = (iso: string) => {
+  function parseISOToDate(iso: string) {
     const [y, m, d] = iso.split("-").map(Number)
     if (!y || !m || !d) return undefined
     const dt = new Date(y, m - 1, d)
@@ -415,9 +457,8 @@ export const DisponibilidadAreasSection = forwardRef<
                   <Button
                     type="button"
                     variant="outline"
-                    className={`w-full justify-between shadow-sm hover:bg-[#E6EDC8]/40 ${
-                      showErrors && errors.fechaInicio ? "border-[#9c1414]" : "border-[#DCD6C9]"
-                    }`}
+                    className={`w-full justify-between shadow-sm hover:bg-[#E6EDC8]/40 ${showErrors && errors.fechaInicio ? "border-[#9c1414]" : "border-[#DCD6C9]"
+                      }`}
                   >
                     <span className={fechaInicio ? "text-[#4A4A4A]" : "text-gray-400"}>
                       {fechaInicio || "Seleccione una fecha"}
@@ -470,9 +511,8 @@ export const DisponibilidadAreasSection = forwardRef<
                   <Button
                     type="button"
                     variant="outline"
-                    className={`w-full justify-between shadow-sm hover:bg-[#E6EDC8]/40 ${
-                      showErrors && errors.fechaFin ? "border-[#9c1414]" : "border-[#DCD6C9]"
-                    }`}
+                    className={`w-full justify-between shadow-sm hover:bg-[#E6EDC8]/40 ${showErrors && errors.fechaFin ? "border-[#9c1414]" : "border-[#DCD6C9]"
+                      }`}
                   >
                     <span className={fechaFin ? "text-[#4A4A4A]" : "text-gray-400"}>
                       {fechaFin || "Seleccione una fecha"}
@@ -523,10 +563,16 @@ export const DisponibilidadAreasSection = forwardRef<
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {dias.map((dia) => {
                 const checked = diasSeleccionados.includes(dia)
+                const isDisabled = Boolean(availableDaysInRange) && !availableDaysInRange?.has(dia)
                 return (
-                  <label key={dia} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-[#E6EDC8]/30">
+                  <label
+                    key={dia}
+                    className={`flex items-center gap-2 rounded-md px-2 py-1.5 ${isDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#E6EDC8]/30"
+                      }`}
+                  >
                     <Checkbox
                       checked={checked}
+                      disabled={isDisabled}
                       onCheckedChange={() => handleDiaChange(dia)}
                       className={checkboxBase}
                     />

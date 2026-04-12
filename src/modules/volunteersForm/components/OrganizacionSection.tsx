@@ -35,7 +35,7 @@ export function OrganizacionSection({ form, showErrors }: OrganizacionSectionPro
   )
   const [otroTipo, setOtroTipo] = useState("")
 
- const [verificandoCJ, setVerificandoCJ] = useState(false)
+  const [verificandoCJ, setVerificandoCJ] = useState(false)
   const [cjError, setCjError] = useState<string>("")
 
   const inputBase =
@@ -43,8 +43,8 @@ export function OrganizacionSection({ form, showErrors }: OrganizacionSectionPro
   const inputError =
     "border-[#9c1414] focus-visible:ring-[#9c1414]/30 focus-visible:ring-2 focus-visible:ring-offset-0"
 
-const cjDebounceRef = useRef<number | null>(null)
-const lastCheckedCjRef = useRef<string>("")
+  const cjDebounceRef = useRef<number | null>(null)
+  const lastCheckedCjRef = useRef<string>("")
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-[#DCD6C9]">
@@ -52,7 +52,7 @@ const lastCheckedCjRef = useRef<string>("")
         <div className="w-8 h-8 bg-[#708C3E] rounded-full flex items-center justify-center text-white font-bold text-sm">
           1
         </div>
-        <h3 className="text-lg font-semibold text-[#708C3E]">Información de la Organización</h3> 
+        <h3 className="text-lg font-semibold text-[#708C3E]">Información de la Organización</h3>
         <p className="mt-1 text-xs text-gray-500">(Todos los campos son obligatorios a menos que contengan la etiqueta "Opcional") </p>
       </div>
 
@@ -230,16 +230,16 @@ const lastCheckedCjRef = useRef<string>("")
                   min={1}
                   max={15}
                   value={field.state.value ?? ""}
-                  onChange={(e) =>
-                     {
-                      field.handleChange(
-                        Number.isNaN(parseInt(e.target.value, 10))
-                          ? undefined
-                          : parseInt(e.target.value, 10)
-                      )
-                      field.handleBlur?.()
+                  onChange={(e) => {
+                    const val = e.target.value
+                    if (val === "") {
+                      field.handleChange("")
+                    } else {
+                      const parsed = parseInt(val, 10)
+                      field.handleChange(Number.isNaN(parsed) ? "" : parsed)
                     }
-                  }
+                    field.handleBlur?.()
+                  }}
                   onBlur={field.handleBlur}
                   aria-invalid={!!(showErrors && field.state.meta.errors?.length > 0)}
                   className={`${showErrors && field.state.meta.errors?.length > 0 ? inputError : inputBase} bg-white`}
@@ -345,7 +345,7 @@ const lastCheckedCjRef = useRef<string>("")
               <>
                 <Textarea
                   value={field.state.value ?? ""}
-                   onChange={(e) => {
+                  onChange={(e) => {
                     field.handleChange(e.target.value)
                     field.handleBlur?.()
                   }}
@@ -397,7 +397,7 @@ const lastCheckedCjRef = useRef<string>("")
                 {showErrors && field.state.meta.errors?.length > 0 && (
                   <p className="text-sm text-[#9c1414] mt-1">{field.state.meta.errors[0]}</p>
                 )}
-                <p className="mt-1 text-xs text-gray-500">Ejemplo: +506 2222-2222</p>
+                <p className="mt-1 text-xs text-gray-500">Ejemplo: 88888888</p>
               </>
             )}
           </form.Field>

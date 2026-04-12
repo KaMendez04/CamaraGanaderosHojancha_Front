@@ -86,7 +86,7 @@ export function TermsAndSubmit({
             </div>
           </label>
 
-          {err && <p className="text-sm text-[#9c1414]">{err}</p>}
+          {err && <p className="text-sm text-[#9c1414] mt-1">{err}</p>}
         </div>
 
         {/* Botones */}

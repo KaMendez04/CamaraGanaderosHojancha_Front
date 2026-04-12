@@ -413,7 +413,7 @@ export function RepresentanteSection({
                 {repFromDB ? (
                   <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
                 ) : (
-                  <p className="mt-1 text-xs text-gray-500">Ejemplo: +506 2222-2222</p>
+                  <p className="mt-1 text-xs text-gray-500">Ejemplo: 88888888</p>
                 )}
               </>
             )}

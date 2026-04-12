@@ -135,6 +135,7 @@ export const organizacionSchema = z.object({
 
   telefono: z
     .string()
+    .regex(/^\d+$/, "El teléfono solo debe contener números")
     .trim()
     .min(8, "El teléfono debe tener entre 8 y 15 dígitos")
     .max(15, "El teléfono debe tener entre 8 y 15 dígitos"),
