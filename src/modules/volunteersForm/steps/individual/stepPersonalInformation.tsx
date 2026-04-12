@@ -233,7 +233,7 @@ export function StepPersonalInformation({
 
               {!!idNumberError && <p className="text-sm text-[#9c1414] mt-1">{idNumberError}</p>}
               {limitReached["idNumber"] && (
-                <p className="text-sm text-orange-600 mt-1">Has alcanzado el límite de 50 caracteres.</p>
+                <p className="text-sm text-[#9c1414] mt-1">Has alcanzado el límite de 50 caracteres.</p>
               )}
               <p className="mt-1 text-xs text-gray-500">Ejemplo: 504550789</p>
             </div>
@@ -264,7 +264,7 @@ export function StepPersonalInformation({
 
               {errors.name && <p className="text-sm text-[#9c1414] mt-1">{errors.name}</p>}
               {limitReached["name"] && (
-                <p className="text-sm text-orange-600 mt-1">Has alcanzado el límite de 50 caracteres.</p>
+                <p className="text-sm text-[#9c1414] mt-1">Has alcanzado el límite de 50 caracteres.</p>
               )}
               {personaFromDB ? (
                 <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
@@ -298,7 +298,7 @@ export function StepPersonalInformation({
 
               {errors.lastName1 && <p className="text-sm text-[#9c1414] mt-1">{errors.lastName1}</p>}
               {limitReached["lastName1"] && (
-                <p className="text-sm text-orange-600 mt-1">Has alcanzado el límite de 40 caracteres.</p>
+                <p className="text-sm text-[#9c1414] mt-1">Has alcanzado el límite de 40 caracteres.</p>
               )}
               {personaFromDB ? (
                 <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
@@ -329,7 +329,7 @@ export function StepPersonalInformation({
 
               {errors.lastName2 && <p className="text-sm text-[#9c1414] mt-1">{errors.lastName2}</p>}
               {limitReached["lastName2"] && (
-                <p className="text-sm text-orange-600 mt-1">Has alcanzado el límite de 40 caracteres.</p>
+                <p className="text-sm text-[#9c1414] mt-1">Has alcanzado el límite de 40 caracteres.</p>
               )}
               {personaFromDB ? (
                 <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
@@ -464,7 +464,7 @@ export function StepPersonalInformation({
 
               {errors.email && <p className="text-sm text-[#9c1414] mt-1">{errors.email}</p>}
               {limitReached["email"] && (
-                <p className="text-sm text-orange-600 mt-1">Has alcanzado el límite de 60 caracteres.</p>
+                <p className="text-sm text-[#9c1414] mt-1">Has alcanzado el límite de 60 caracteres.</p>
               )}
 
               {personaFromDB ? (
