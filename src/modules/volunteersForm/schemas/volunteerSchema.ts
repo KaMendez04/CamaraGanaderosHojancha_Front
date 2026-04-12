@@ -140,7 +140,7 @@ export const organizacionSchema = z.object({
     .max(15, "El teléfono debe tener entre 8 y 15 dígitos"),
 
   email: z.string().trim().toLowerCase().email("Email institucional inválido"),
-  tipoOrganizacion: z.string().trim(),
+  tipoOrganizacion: z.string().trim().min(1, "El tipo de organización es requerido"),
   representante: representanteSchema,
   razonesSociales: z
     .array(
