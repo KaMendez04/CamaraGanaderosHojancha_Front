@@ -261,7 +261,7 @@ export const DisponibilidadAreasSection = forwardRef<
       setDiasSeleccionados([])
       setHorariosSeleccionados([])
     }
-
+  //
     const areaNames = (Array.isArray(srcAreas) ? srcAreas : [])
       .map((a: any) => String(a?.nombreArea ?? a ?? "").trim())
       .filter(Boolean)
