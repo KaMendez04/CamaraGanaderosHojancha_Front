@@ -57,13 +57,13 @@ export function Step1Organization(props: {
   }, [lookup])
 
   const handleNext = () => {
-  const { anyEmpty } = validateOrgStep1Required(form)
-  if (anyEmpty) {
-    setShowErrors(true)
-    return
+    const { canContinue } = validateOrgStep1Required(form)
+    if (!canContinue) {
+      setShowErrors(true)
+      return
+    }
+    onNext()
   }
-  onNext()
-}
 
   return (
     <div className="space-y-6">
@@ -71,7 +71,7 @@ export function Step1Organization(props: {
 
       <RepresentanteSection form={form} lookup={lookupCombined} showErrors={showErrors} />
 
-      <NavigationButtons onPrev={() => {}} onNext={handleNext} disableNext={false} hidePrev />
+      <NavigationButtons onPrev={() => { }} onNext={handleNext} disableNext={false} hidePrev />
     </div>
   )
 }
