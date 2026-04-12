@@ -51,28 +51,28 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
   const normalizaAnimales = (animales: any[] | undefined): Row[] =>
     Array.isArray(animales)
       ? animales.map((a) => ({
-          id: a?.id,
-          nombre: a?.nombre ?? a?.animal ?? "",
-          cantidad: a?.cantidad != null ? String(a.cantidad) : "",
-        }))
+        id: a?.id,
+        nombre: a?.nombre ?? a?.animal ?? "",
+        cantidad: a?.cantidad != null ? String(a.cantidad) : "",
+      }))
       : []
 
   const [formValues, setFormValues] = React.useState<HatoLocalState>(
     hatoDataExistente
       ? {
-          idFinca: hatoDataExistente.idFinca ?? 0,
-          tipoExplotacion: hatoDataExistente.tipoExplotacion ?? "",
-          totalGanado: Number(hatoDataExistente.totalGanado ?? 0),
-          razaPredominante: hatoDataExistente.razaPredominante ?? "",
-          animales: normalizaAnimales(hatoDataExistente.animales),
-        }
+        idFinca: hatoDataExistente.idFinca ?? 0,
+        tipoExplotacion: hatoDataExistente.tipoExplotacion ?? "",
+        totalGanado: Number(hatoDataExistente.totalGanado ?? 0),
+        razaPredominante: hatoDataExistente.razaPredominante ?? "",
+        animales: normalizaAnimales(hatoDataExistente.animales),
+      }
       : {
-          idFinca: 0,
-          tipoExplotacion: "",
-          totalGanado: 0,
-          razaPredominante: "",
-          animales: [],
-        }
+        idFinca: 0,
+        tipoExplotacion: "",
+        totalGanado: 0,
+        razaPredominante: "",
+        animales: [],
+      }
   )
 
   const [currentAnimal, setCurrentAnimal] = React.useState<Row>({ nombre: "", cantidad: "" })
@@ -183,7 +183,7 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
   }, [formValues.animales, formValues.totalGanado])
 
   useEffect(() => {
-    ;(form as any).setFieldValue("hatoData", {
+    ; (form as any).setFieldValue("hatoData", {
       tipoExplotacion: formValues.tipoExplotacion,
       totalGanado: String(formValues.totalGanado),
       razaPredominante: formValues.razaPredominante || "",
@@ -326,7 +326,7 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
                 (forceValidation && !formValues.tipoExplotacion ? "El tipo de explotación es requerido" : "")
               }
             />
-             <HelperText>Ejemplo: intensivo, extensivo o mixto.</HelperText>
+            <HelperText>Ejemplo: intensivo, extensivo o mixto.</HelperText>
           </div>
 
           {/* Raza predominante (Opcional) */}
@@ -385,8 +385,8 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
                 msg={
                   rowErrors.nombre ||
                   (forceValidation &&
-                  formValues.animales.length === 0 &&
-                  (!currentAnimal.nombre || (showOtroInput && !otroAnimal))
+                    formValues.animales.length === 0 &&
+                    (!currentAnimal.nombre || (showOtroInput && !otroAnimal))
                     ? "Debe ingresar un tipo de animal"
                     : "")
                 }
@@ -428,6 +428,7 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
                 type="text"
                 inputMode="numeric"
                 value={currentAnimal.cantidad}
+                maxLength={6}
                 onChange={(e) => {
                   const clean = e.target.value.replace(/\D/g, "")
                   setCurrentAnimal({ ...currentAnimal, cantidad: clean })
@@ -443,9 +444,9 @@ export function HatoSection({ form, forceValidation = false }: HatoFormProps) {
                     ? "La cantidad debe ser al menos 1"
                     : "")
                 }
-                
+
               />
-              <HelperText>Ingrese un número mayor a 0.</HelperText>
+              <HelperText>Número máximo 6 dígitos.</HelperText>
 
             </div>
 

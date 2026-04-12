@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { NavigationButtons } from "../../components/NavigationButtons"
 import { OrganizacionSection } from "../../components/OrganizacionSection"
 import { RepresentanteSection } from "../../components/RepresentanteSection"
@@ -13,6 +13,8 @@ export function Step1Organization(props: {
   onNext: () => void
 }) {
   const { form, lookup, showErrors, setShowErrors, onNext } = props
+  const [cjBackendError, setCjBackendError] = useState(false)
+  const [repBackendError, setRepBackendError] = useState(false)
 
   const lookupCombined = useMemo(() => {
     return async (id: string) => {
@@ -57,21 +59,30 @@ export function Step1Organization(props: {
   }, [lookup])
 
   const handleNext = () => {
-  const { anyEmpty } = validateOrgStep1Required(form)
-  if (anyEmpty) {
-    setShowErrors(true)
-    return
+    const { canContinue } = validateOrgStep1Required(form)
+    if (!canContinue || cjBackendError || repBackendError) {
+      setShowErrors(true)
+      return
+    }
+    onNext()
   }
-  onNext()
-}
 
   return (
     <div className="space-y-6">
-      <OrganizacionSection form={form} showErrors={showErrors} />
+      <OrganizacionSection 
+        form={form} 
+        showErrors={showErrors} 
+        onBackendErrorChange={setCjBackendError} 
+      />
 
-      <RepresentanteSection form={form} lookup={lookupCombined} showErrors={showErrors} />
+      <RepresentanteSection 
+        form={form} 
+        lookup={lookupCombined} 
+        showErrors={showErrors} 
+        onBackendErrorChange={setRepBackendError} 
+      />
 
-      <NavigationButtons onPrev={() => {}} onNext={handleNext} disableNext={false} hidePrev />
+      <NavigationButtons onPrev={() => { }} onNext={handleNext} disableNext={false} hidePrev />
     </div>
   )
 }

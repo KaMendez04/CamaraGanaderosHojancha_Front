@@ -25,7 +25,7 @@ export function CaracteristicasFisicasSection({ form }: CaracteristicasFisicasSe
   const [otroEquipo, setOtroEquipo] = useState<string>("")
 
   useEffect(() => {
-    ;(form as any).setFieldValue("caracteristicasFisicas", { tiposCerca, equipos })
+    ; (form as any).setFieldValue("caracteristicasFisicas", { tiposCerca, equipos })
   }, [tiposCerca, equipos, form])
 
   const toggleCerca = (cerca: string) => {
@@ -112,7 +112,6 @@ export function CaracteristicasFisicasSection({ form }: CaracteristicasFisicasSe
                   agregarOtraCerca()
                 }
               }}
-              placeholder="Otro tipo de cerca"
               className="bg-white border-[#DCD6C9] focus-visible:ring-[#708C3E]/30 focus-visible:ring-2 focus-visible:ring-offset-0"
               maxLength={75}
             />
@@ -127,6 +126,7 @@ export function CaracteristicasFisicasSection({ form }: CaracteristicasFisicasSe
               Agregar
             </Button>
           </div>
+          <p className="mt-1 text-xs text-gray-500">Ejemplo: Cerca de madera.</p>
 
           {tiposCerca.length > 0 && (
             <div className="mt-3 p-3 bg-[#FEF6E0] border border-[#F5E6C5] rounded-md">
@@ -187,7 +187,7 @@ export function CaracteristicasFisicasSection({ form }: CaracteristicasFisicasSe
                   agregarOtroEquipo()
                 }
               }}
-              placeholder="Otro equipo"
+
               className="bg-white border-[#DCD6C9] focus-visible:ring-[#708C3E]/30 focus-visible:ring-2 focus-visible:ring-offset-0"
               maxLength={75}
             />
@@ -202,6 +202,7 @@ export function CaracteristicasFisicasSection({ form }: CaracteristicasFisicasSe
               Agregar
             </Button>
           </div>
+          <p className="mt-1 text-xs text-gray-500">Ejemplo: Báscula ganadera.</p>
 
           {equipos.length > 0 && (
             <div className="mt-3 p-3 bg-[#FEF6E0] border border-[#F5E6C5] rounded-md">

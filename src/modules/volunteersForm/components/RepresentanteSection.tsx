@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState, useEffect } from "react"
 import { volunteerOrganizacionSchema } from "../schemas/volunteerSchema"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,10 +11,12 @@ export function RepresentanteSection({
   form,
   lookup,
   showErrors = false,
+  onBackendErrorChange,
 }: {
   form: any
   lookup?: (id: string) => Promise<any>
   showErrors?: boolean
+  onBackendErrorChange?: (hasError: boolean) => void
 }) {
   const personaSchema = useMemo(
     () => volunteerOrganizacionSchema.shape.organizacion.shape.representante.shape.persona,
@@ -160,6 +162,12 @@ export function RepresentanteSection({
   const bloquearPorCedula = cedulaCtrl.loading || !!cedulaCtrl.error
   const bloquearNombreApellidos = bloquearPorCedula || !!repErrorMsg
   const bloquearCamposDB = bloquearPorCedula || repFromDB
+
+  useEffect(() => {
+    if (onBackendErrorChange) {
+      onBackendErrorChange(!!repErrorMsg || cedulaCtrl.loading)
+    }
+  }, [repErrorMsg, cedulaCtrl.loading, onBackendErrorChange])
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-[#DCD6C9]">

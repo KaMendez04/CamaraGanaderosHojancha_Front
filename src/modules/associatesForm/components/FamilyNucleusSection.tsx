@@ -59,7 +59,6 @@ export function NucleoFamiliarSection({ form }: NucleoFamiliarSectionProps) {
                   name="nucleoHombres"
                   type="text"
                   inputMode="numeric"
-                  placeholder="0"
                   value={field.state.value ?? ""}
                   onChange={(e) => {
                     const raw = e.target.value
@@ -73,7 +72,7 @@ export function NucleoFamiliarSection({ form }: NucleoFamiliarSectionProps) {
                   }}
                   className={`${errorHombres ? inputError : inputBase} bg-white`}
                 />
-
+                <p className="mt-1 text-xs text-gray-500">Ejemplo: 2</p>
                 {errorHombres && <p className="text-sm text-[#9c1414] mt-1">{errorHombres}</p>}
               </div>
             )}
@@ -90,7 +89,6 @@ export function NucleoFamiliarSection({ form }: NucleoFamiliarSectionProps) {
                   name="nucleoMujeres"
                   type="text"
                   inputMode="numeric"
-                  placeholder="0"
                   value={field.state.value ?? ""}
                   onChange={(e) => {
                     const raw = e.target.value
@@ -104,6 +102,7 @@ export function NucleoFamiliarSection({ form }: NucleoFamiliarSectionProps) {
                   }}
                   className={`${errorMujeres ? inputError : inputBase} bg-white`}
                 />
+                <p className="mt-1 text-xs text-gray-500">Ejemplo: 3</p>
 
                 {errorMujeres && <p className="text-sm text-[#9c1414] mt-1">{errorMujeres}</p>}
               </div>
