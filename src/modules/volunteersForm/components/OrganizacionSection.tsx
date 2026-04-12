@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { organizacionSchema } from "../schemas/volunteerSchema"
 import { validateSolicitudVoluntariado } from "../services/volunteerFormService"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,7 @@ import { CustomSelect } from "@/shared/ui/CustomSelect"
 interface OrganizacionSectionProps {
   form: any
   showErrors?: boolean
+  onBackendErrorChange?: (hasError: boolean) => void
 }
 
 const TIPOS_ORGANIZACION = [
@@ -29,14 +30,21 @@ function validateOrgField(key: keyof typeof organizacionSchema.shape) {
   }
 }
 
-export function OrganizacionSection({ form, showErrors }: OrganizacionSectionProps) {
+export function OrganizacionSection({ form, showErrors, onBackendErrorChange }: OrganizacionSectionProps) {
   const [tipoOrg, setTipoOrg] = useState(
     (form.getFieldValue?.("organizacion.tipoOrganizacion") as string) || ""
   )
   const [otroTipo, setOtroTipo] = useState("")
 
- const [verificandoCJ, setVerificandoCJ] = useState(false)
+  const [verificandoCJ, setVerificandoCJ] = useState(false)
   const [cjError, setCjError] = useState<string>("")
+
+  // Notificamos si hay un error backend o si estamos verificando
+  useEffect(() => {
+    if (onBackendErrorChange) {
+      onBackendErrorChange(!!cjError || verificandoCJ)
+    }
+  }, [cjError, verificandoCJ, onBackendErrorChange])
 
   const inputBase =
     "border-[#DCD6C9] focus-visible:ring-[#708C3E]/30 focus-visible:ring-2 focus-visible:ring-offset-0"

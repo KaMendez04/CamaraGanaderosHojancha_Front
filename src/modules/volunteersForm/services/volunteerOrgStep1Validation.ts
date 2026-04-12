@@ -51,10 +51,13 @@ export function validateOrgStep1Required(form: any) {
     return Array.isArray(errors) && errors.length > 0
   })
 
-  const schemaValidation = volunteerOrganizacionSchema.safeParse({
-    tipoSolicitante: "ORGANIZACION",
-    organizacion: v,
+  const step1Schema = volunteerOrganizacionSchema.shape.organizacion.omit({
+    razonesSociales: true,
+    disponibilidades: true,
+    areasInteres: true,
   })
+
+  const schemaValidation = step1Schema.safeParse(v)
 
   const hasSchemaErrors = !schemaValidation.success
   const canContinue = !(anyEmpty || hasFieldErrors || hasSchemaErrors)
