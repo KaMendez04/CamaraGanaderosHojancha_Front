@@ -5,11 +5,11 @@ export const fincaBasicSchema = z.object({
   nombreFinca: z.string()
     .min(1, "El nombre de la finca es requerido")
     .max(100, "Máximo 100 caracteres"),
-  
+
   areaHa: z.string()
     .min(1, "El área es requerida")
     .regex(/^\d+(\.\d{1,2})?$/, "Formato inválido (ej: 15.50)"),
-  
+
   numeroPlano: z.string()
     .min(1, "El número de plano es requerido")
     .max(50, "Máximo 50 caracteres"),
@@ -19,13 +19,13 @@ export const fincaBasicSchema = z.object({
 export const geografiaSchema = z.object({
   provincia: z.string()
     .min(1, "La provincia es requerida"),
-  
+
   canton: z.string()
     .min(1, "El cantón es requerido"),
-  
+
   distrito: z.string()
     .min(1, "El distrito es requerido"),
-  
+
   caserio: z.string()
     .min(1, "El caserio es requerido")
     .max(100, "Máximo 100 caracteres")
@@ -45,21 +45,21 @@ export const propietarioFieldsSchema = z.object({
     .min(1, "Fecha de nacimiento es obligatoria")
     .refine((fecha) => {
       if (!fecha) return false;
-      
+
       const fechaNacimiento = new Date(fecha);
       const hoy = new Date();
-      
+
       // Calcular edad
       let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
       const mesActual = hoy.getMonth();
       const mesNacimiento = fechaNacimiento.getMonth();
-      
+
       // Ajustar si aún no ha cumplido años este año
-      if (mesActual < mesNacimiento || 
-          (mesActual === mesNacimiento && hoy.getDate() < fechaNacimiento.getDate())) {
+      if (mesActual < mesNacimiento ||
+        (mesActual === mesNacimiento && hoy.getDate() < fechaNacimiento.getDate())) {
         edad--;
       }
-      
+
       return edad >= 18;
     }, {
       message: "El propietario debe ser mayor de 18 años"
@@ -95,7 +95,7 @@ export const hatoItemSchema = z.object({
 
   cantidad: z.preprocess(
     (v) => (typeof v === "string" ? Number(v) : v),
-    z.number().int().min(1, "La cantidad debe ser al menos 1").max(100000, "Cantidad demasiado alta")
+    z.number().int().min(1, "La cantidad debe ser al menos 1").max(999999, "La cantidad debe tener máximo 6 dígitos")
   ),
 });
 

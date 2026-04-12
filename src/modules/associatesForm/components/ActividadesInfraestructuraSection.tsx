@@ -24,7 +24,7 @@ export function ActividadesInfraestructuraSection({ form }: ActividadesInfraestr
   const [saleros, setSaleros] = useState<string>(existentes.saleros?.toString() || "0")
 
   useEffect(() => {
-    ;(form as any).setFieldValue("actividadesInfraestructura", {
+    ; (form as any).setFieldValue("actividadesInfraestructura", {
       cultivos: actividades,
       apartos: parseInt(apartos, 10) || 0,
       comederos: parseInt(comederos, 10) || 0,
@@ -112,7 +112,6 @@ export function ActividadesInfraestructuraSection({ form }: ActividadesInfraestr
                     agregarActividad()
                   }
                 }}
-                placeholder="Ej: Maíz, Huerta, Porcicultura..."
                 maxLength={75}
                 aria-invalid={!!cultivoError}
                 className={[
@@ -123,6 +122,9 @@ export function ActividadesInfraestructuraSection({ form }: ActividadesInfraestr
                 ].join(" ")}
               />
               {cultivoError && <p className="mt-1 text-sm text-red-600">{cultivoError}</p>}
+              {!cultivoError && (
+                <p className="mt-1 text-xs text-gray-500">Ejemplo: Maíz, Huerta, Porcicultura.</p>
+              )}
             </div>
 
             <Button

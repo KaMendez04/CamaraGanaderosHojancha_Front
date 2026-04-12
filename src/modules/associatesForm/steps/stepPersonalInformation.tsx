@@ -514,7 +514,7 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
                     ) : personaFromDB ? (
                       <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
                     ) : (
-                      <p className="mt-1 text-xs text-gray-500">Ejemplo: +506 2222-2222</p>
+                      <p className="mt-1 text-xs text-gray-500">Ejemplo: 8222-2898</p>
                     )}
                   </div>
                 )
@@ -723,7 +723,7 @@ export function Step1({ form, lookup, onNext }: Step1Props) {
                     {err ? (
                       <p className="text-sm text-[#9c1414] mt-1">{err}</p>
                     ) : (
-                      <p className="mt-1 text-xs text-gray-500">Ingrese la marca registrada.</p>
+                      <p className="mt-1 text-xs text-gray-500">Ingrese la marca registrada (máximo 100 caracteres).</p>
                     )}
                   </div>
                 )
