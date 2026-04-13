@@ -15,16 +15,29 @@ export default function PrincipalPage({ noticeVisible = true }: Props) {
   const [showVideo, setShowVideo] = useState(false)
 
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 640px)").matches
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    setShowVideo(!isMobile && !reducedMotion)
+    const checkVideoVisibility = () => {
+      const isMobile = window.matchMedia("(max-width: 640px)").matches
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      setShowVideo(!isMobile && !reducedMotion)
+    }
+
+    checkVideoVisibility()
+    
+    const mediaQuery = window.matchMedia("(max-width: 640px)")
+    mediaQuery.addEventListener('change', checkVideoVisibility)
+    
+    return () => {
+      mediaQuery.removeEventListener('change', checkVideoVisibility)
+    }
   }, [])
 
   const poster =
     "https://res.cloudinary.com/dyigmavwq/video/upload/so_1,f_webp,q_auto,w_1920/v1771529238/vide5s_z8uetq.webp"
 
   const videoSrc =
-    "https://res.cloudinary.com/dyigmavwq/video/upload/q_auto:best,br_3000k,w_1920,f_mp4,vc_h264,fl_progressive/v1771529238/vide5s_z8uetq.mp4"
+    "public/videoInicio.mp4"
+
+  const fotoSrc = "public/fotoInicio.png"
 
   return (
     <PageState
@@ -55,7 +68,7 @@ export default function PrincipalPage({ noticeVisible = true }: Props) {
           />
 
           <img
-            src={poster}
+            src={showVideo ? poster : fotoSrc}
             alt=""
             aria-hidden="true"
             className="absolute inset-0 -z-20 h-full w-full object-cover"
