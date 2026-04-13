@@ -242,7 +242,7 @@ export function RepresentanteSection({
 
                   {/* luego error del backend */}
                   {repErrorMsg && <p className="text-sm text-[#9c1414] mt-1">{repErrorMsg}</p>}
-                  <p className="mt-1 text-xs text-gray-500">Ejemplo: 502120987-980</p>
+                  <p className="mt-1 text-xs text-gray-500">Ejemplo: 502120987</p>
                 </>
               )
             }}
@@ -487,9 +487,6 @@ export function RepresentanteSection({
                     error={showErrors ? field.state.meta.errors?.[0] : undefined}
                     className=""
                   />
-                  {shouldShowFieldError(field) && (
-                    <p className="text-sm text-[#9c1414] mt-1">{fieldErrorMsg(field)}</p>
-                  )}
                   {repFromDB ? (
                     <p className="mt-1 text-xs text-gray-500">Este dato fue recuperado del sistema y no puede modificarse.</p>
                   ) : (

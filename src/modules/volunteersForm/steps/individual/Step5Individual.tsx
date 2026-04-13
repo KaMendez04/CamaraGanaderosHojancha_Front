@@ -41,7 +41,9 @@ export function Step5Individual(props: {
             <p><span className="text-gray-500">Segundo Apellido:</span> {formData.lastName2 || "N/A"}</p>
             <p><span className="text-gray-500">Cédula:</span> {formData.idNumber || "N/A"}</p>
             <p><span className="text-gray-500">Fecha de Nacimiento:</span> {formData.birthDate || "N/A"}</p>
-            <p><span className="text-gray-500">Nacionalidad:</span> {formData.nacionalidad || "No especificado"}</p>
+            {formData.nacionalidad ? (
+              <p><span className="text-gray-500">Nacionalidad:</span> {formData.nacionalidad}</p>
+            ) : null}
           </div>
         </section>
 
@@ -96,54 +98,54 @@ export function Step5Individual(props: {
           <div className="space-y-3">
             <div className="rounded-lg border border-[#DCD6C9] bg-[#FAF9F5] p-3 text-sm">
               <p className="text-gray-500 font-medium">Experiencia Previa:</p>
-              <p className="text-gray-700 mt-1">{formData.previousExperience || "No especificado"}</p>
+              <p className="text-gray-700 mt-1 break-words whitespace-pre-wrap">{formData.previousExperience || "No especificado"}</p>
             </div>
 
             <div className="rounded-lg border border-[#DCD6C9] bg-[#FAF9F5] p-3 text-sm">
               <p className="text-gray-500 font-medium">Motivación:</p>
-              <p className="text-gray-700 mt-1">{formData.motivation || "No especificado"}</p>
+              <p className="text-gray-700 mt-1 break-words whitespace-pre-wrap">{formData.motivation || "No especificado"}</p>
             </div>
 
             <div className="rounded-lg border border-[#DCD6C9] bg-[#FAF9F5] p-3 text-sm">
               <p className="text-gray-500 font-medium">Habilidades:</p>
-              <p className="text-gray-700 mt-1">{formData.volunteeringType || "No especificado"}</p>
+              <p className="text-gray-700 mt-1 break-words whitespace-pre-wrap">{formData.volunteeringType || "No especificado"}</p>
             </div>
           </div>
         </section>
 
         {/* Documentos */}
-      <section className="rounded-xl border border-[#DCD6C9] bg-white p-4">
-        <h3 className="text-base font-semibold text-[#708C3E] mb-3">Documentos Adjuntos</h3>
+        <section className="rounded-xl border border-[#DCD6C9] bg-white p-4">
+          <h3 className="text-base font-semibold text-[#708C3E] mb-3">Documentos Adjuntos</h3>
 
-        <div className="space-y-2 text-sm">
-          <p>
-            <span className="text-gray-500">Cédula:</span>{" "}
-            {files?.cedula ? (
-              <span className="text-green-700">✓ {files.cedula.name}</span>
-            ) : (
-              <span className="text-[#9c1414]">✗ No adjuntado</span>
-            )}
-          </p>
+          <div className="space-y-2 text-sm">
+            <p>
+              <span className="text-gray-500">Cédula:</span>{" "}
+              {files?.cedula ? (
+                <span className="text-green-700">✓ {files.cedula.name}</span>
+              ) : (
+                <span className="text-[#9c1414]">✗ No adjuntado</span>
+              )}
+            </p>
 
-          <p>
-            <span className="text-gray-500">Currículum Vitae (CV):</span>{" "}
-            {files?.cv ? (
-              <span className="text-green-700">✓ {files.cv.name}</span>
-            ) : (
-              <span className="text-[#9c1414]">✗ No adjuntado</span>
-            )}
-          </p>
+            <p>
+              <span className="text-gray-500">Currículum Vitae (CV):</span>{" "}
+              {files?.cv ? (
+                <span className="text-green-700">✓ {files.cv.name}</span>
+              ) : (
+                <span className="text-[#9c1414]">✗ No adjuntado</span>
+              )}
+            </p>
 
-          <p>
-            <span className="text-gray-500">Carta de recomendación:</span>{" "}
-            {files?.carta ? (
-              <span className="text-green-700">✓ {files.carta.name}</span>
-            ) : (
-              <span className="text-[#9c1414]">✗ No adjuntado</span>
-            )}
-          </p>
-        </div>
-      </section>
+            <p>
+              <span className="text-gray-500">Carta de recomendación:</span>{" "}
+              {files?.carta ? (
+                <span className="text-green-700">✓ {files.carta.name}</span>
+              ) : (
+                <span className="text-[#9c1414]">✗ No adjuntado</span>
+              )}
+            </p>
+          </div>
+        </section>
 
         {/* Términos + submit */}
         <TermsAndSubmit

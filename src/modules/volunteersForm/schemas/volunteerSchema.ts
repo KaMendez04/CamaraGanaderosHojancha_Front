@@ -121,9 +121,8 @@ export const organizacionSchema = z.object({
   cedulaJuridica: z
     .string()
     .trim()
-    .regex(/^\d+$/, "La cédula jurídica solo debe contener números")
-    .min(10, "La cédula jurídica debe tener 10 dígitos")
-    .max(10, "La cédula jurídica debe tener 10 dígitos"),
+    .min(6, "La cédula jurídica debe tener entre 6 y 10 caracteres")
+    .max(10, "La cédula jurídica debe tener entre 6 y 10 caracteres"),
 
   nombre: z.string().trim().min(1, "El nombre de la organización es requerido"),
 

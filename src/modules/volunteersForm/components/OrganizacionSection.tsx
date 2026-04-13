@@ -132,7 +132,7 @@ export function OrganizacionSection({ form, showErrors, onBackendErrorChange }: 
 
                       const trimmed = value.trim()
 
-                      if (trimmed.length >= 3) {
+                      if (trimmed.length >= 6) {
                         if (cjDebounceRef.current) window.clearTimeout(cjDebounceRef.current)
                         cjDebounceRef.current = window.setTimeout(() => {
                           precheckCJ(trimmed)
@@ -145,14 +145,14 @@ export function OrganizacionSection({ form, showErrors, onBackendErrorChange }: 
                       field.handleBlur()
 
                       const v = e.target.value.trim()
-                      if (v.length >= 9) {
+                      if (v.length >= 6) {
                         if (cjDebounceRef.current) window.clearTimeout(cjDebounceRef.current)
                         await precheckCJ(v)
                       }
                     }}
                     aria-invalid={hasErr}
                     className={`${hasErr ? inputError : inputBase} pr-10 bg-white`}
-                    maxLength={20}
+                    maxLength={10}
                   />
 
                   {verificandoCJ && (
@@ -173,7 +173,7 @@ export function OrganizacionSection({ form, showErrors, onBackendErrorChange }: 
 
                   {/* luego error del backend */}
                   {cjError && <p className="text-sm text-[#9c1414] mt-1">{cjError}</p>}
-                  <p className="mt-1 text-xs text-gray-500">Ejemplo: 502120987-980</p>
+                  <p className="mt-1 text-xs text-gray-500">Ejemplo: 3-101234</p>
                 </>
               )
             }}
